@@ -3,6 +3,24 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Api\EtudiantController;
+Route::apiResource('etudiants', EtudiantController::class);
+
+use App\Http\Controllers\Api\ProfesseurController;
+Route::apiResource('professeurs', ProfesseurController::class);
+
+use App\Http\Controllers\Api\CoursController;
+Route::apiResource('cours', CoursController::class);
+
+use App\Http\Controllers\Api\ContactController;
+Route::apiResource('contacts', ContactController::class);
+
+
+
+use App\Http\Controllers\Api\DirecteurController;
+Route::apiResource('directeurs', DirecteurController::class);
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
