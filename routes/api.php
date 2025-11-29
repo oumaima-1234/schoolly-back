@@ -20,7 +20,14 @@ Route::apiResource('contacts', ContactController::class);
 use App\Http\Controllers\Api\DirecteurController;
 Route::apiResource('directeurs', DirecteurController::class);
 
+use App\Http\Controllers\Api\AuthController;
+// Public routes
+Route::post('signup', [AuthController::class, 'signup']);
+Route::post('login', [AuthController::class, 'login']);
 
+// Protected routes (require token)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,6 +39,6 @@ Route::apiResource('directeurs', DirecteurController::class);
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    //return $request->user();
 });
