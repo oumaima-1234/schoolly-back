@@ -11,10 +11,8 @@ class EmploiController extends Controller
     // GET all emploi du temps
     public function index()
     {
-        return EmploiDuTemps::with('matiere')->get();
+        return EmploiDuTemps::all();
     }
-    /*public function index() {
-        return EmploiDuTemps::all(); }*/
 
     // POST create new emploi
     public function store(Request $request)
@@ -23,9 +21,9 @@ class EmploiController extends Controller
             'jour' => 'required|string|max:50',
             'heure_debut' => 'required',
             'heure_fin' => 'required',
-            //'matiere_id' => 'required|exists:matieres,id',
             'class' => 'nullable|string|max:255',
             'professeur' => 'nullable|string|max:255',
+            'matiere' => 'nullable|string|max:255', // هنا أضفناه
         ]);
 
         return EmploiDuTemps::create($validated);
@@ -34,7 +32,7 @@ class EmploiController extends Controller
     // GET one emploi
     public function show(EmploiDuTemps $emploi)
     {
-        return $emploi->load('matiere');
+        return $emploi;
     }
 
     // PUT update emploi
@@ -44,9 +42,9 @@ class EmploiController extends Controller
             'jour' => 'required|string|max:50',
             'heure_debut' => 'required',
             'heure_fin' => 'required',
-            //'matiere_id' => 'required|exists:matieres,id',
             'class' => 'nullable|string|max:255',
             'professeur' => 'nullable|string|max:255',
+            'matiere' => 'nullable|string|max:255', // هنا أضفناه
         ]);
 
         $emploi->update($validated);

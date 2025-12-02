@@ -15,13 +15,10 @@ class EmploiDuTemps extends Model
         'jour',
         'heure_debut',
         'heure_fin',
-        'matiere_id',
         'class',
         'professeur',
+        'matiere', // أضفناه هنا
     ];
 
-    public function matiere()
-    {
-        return $this->belongsTo(Matiere::class);
-    }
+    // لم تعد هناك علاقة matiere
 }
