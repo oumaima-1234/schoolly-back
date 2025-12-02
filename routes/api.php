@@ -2,23 +2,33 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+//etudiants
 use App\Http\Controllers\Api\EtudiantController;
 Route::apiResource('etudiants', EtudiantController::class);
 
+//professeurs
 use App\Http\Controllers\Api\ProfesseurController;
 Route::apiResource('professeurs', ProfesseurController::class);
 
+//cours
 use App\Http\Controllers\Api\CoursController;
 Route::apiResource('cours', CoursController::class);
 
+//contacts
 use App\Http\Controllers\Api\ContactController;
 Route::apiResource('contacts', ContactController::class);
 
-
-
+//directeurs
 use App\Http\Controllers\Api\DirecteurController;
 Route::apiResource('directeurs', DirecteurController::class);
+
+//emplois du temps
+use App\Http\Controllers\Api\EmploiController;
+Route::apiResource('emplois', EmploiController::class);
+
+
+
+
 
 use App\Http\Controllers\Api\AuthController;
 // Public routes

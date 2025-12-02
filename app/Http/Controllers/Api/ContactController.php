@@ -8,32 +8,40 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    public function index()
-    {
+    // جلب جميع جهات الاتصال
+    public function index() {
         return Contact::all();
     }
 
-    public function store(Request $request)
-    {
-        $contact = Contact::create($request->all());
-        return response()->json($contact, 201);
+    // إنشاء جهة اتصال جديدة مع التحقق من البيانات
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:contacts',
+        ]);
+
+        return Contact::create($validated);
     }
 
-    public function show($id)
-    {
-        return Contact::findOrFail($id);
+    // جلب جهة اتصال محددة
+    public function show(Contact $contact) {
+        return $contact;
     }
 
-    public function update(Request $request, $id)
-    {
-        $contact = Contact::findOrFail($id);
-        $contact->update($request->all());
-        return response()->json($contact);
+    // تحديث جهة اتصال محددة
+    public function update(Request $request, Contact $contact) {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:contacts,email,' . $contact->id,
+        ]);
+
+        $contact->update($validated);
+        return $contact;
     }
 
-    public function destroy($id)
-    {
-        Contact::destroy($id);
-        return response()->json(null, 204);
+    // حذف جهة اتصال
+    public function destroy(Contact $contact) {
+        $contact->delete();
+        return response()->noContent();
     }
 }

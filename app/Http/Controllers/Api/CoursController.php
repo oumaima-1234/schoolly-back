@@ -8,32 +8,42 @@ use Illuminate\Http\Request;
 
 class CoursController extends Controller
 {
-    public function index()
-    {
+    // جلب جميع الدروس
+    public function index() {
         return Cours::all();
     }
 
-    public function store(Request $request)
-    {
-        $cours = Cours::create($request->all());
-        return response()->json($cours, 201);
+    // إنشاء درس جديد مع التحقق من البيانات
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'Code' => 'required|string|max:255|unique:cours',
+            'Nom' => 'required|string|max:255',
+            'Description' => 'nullable|string',
+        ]);
+
+        return Cours::create($validated);
     }
 
-    public function show($id)
-    {
-        return Cours::findOrFail($id);
+    // جلب درس محدد
+    public function show(Cours $cours) {
+        return $cours;
     }
 
-    public function update(Request $request, $id)
-    {
-        $cours = Cours::findOrFail($id);
-        $cours->update($request->all());
-        return response()->json($cours);
+    // تحديث درس محدد مع التحقق من البيانات
+    public function update(Request $request, Cours $cours) {
+        $validated = $request->validate([
+            'Code' => 'required|string|max:255|unique:cours,Code,' . $cours->id,
+            'Nom' => 'required|string|max:255',
+            'Description' => 'nullable|string',
+        ]);
+
+        $cours->update($validated);
+        return $cours;
     }
 
-    public function destroy($id)
-    {
-        Cours::destroy($id);
-        return response()->json(null, 204);
+    // حذف درس
+    public function destroy(Cours $cours) {
+        $cours->delete();
+        return response()->noContent();
     }
 }

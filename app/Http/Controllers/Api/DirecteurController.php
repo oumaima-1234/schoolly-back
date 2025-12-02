@@ -8,32 +8,41 @@ use Illuminate\Http\Request;
 
 class DirecteurController extends Controller
 {
-    public function index()
-    {
+    // جلب جميع المدراء
+    public function index() {
         return Directeur::all();
     }
 
-    public function store(Request $request)
-    {
-        $directeur = Directeur::create($request->all());
-        return response()->json($directeur, 201);
+    // إنشاء مدير جديد مع التحقق من البيانات
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'Nom' => 'required|string|max:255',
+            'Prenom' => 'required|string|max:255',
+        ]);
+
+        return Directeur::create($validated);
     }
 
-    public function show($id)
-    {
-        return Directeur::findOrFail($id);
+    // جلب مدير محدد
+    public function show(Directeur $directeur) {
+        return $directeur;
     }
 
-    public function update(Request $request, $id)
-    {
-        $directeur = Directeur::findOrFail($id);
-        $directeur->update($request->all());
-        return response()->json($directeur);
+    // تحديث مدير محدد
+    public function update(Request $request, Directeur $directeur) {
+        $validated = $request->validate([
+            'Nom' => 'required|string|max:255',
+            'Prenom' => 'required|string|max:255',
+        ]);
+
+        $directeur->update($validated);
+        return $directeur;
     }
 
-    public function destroy($id)
-    {
-        Directeur::destroy($id);
-        return response()->json(null, 204);
+    // حذف مدير
+    public function destroy(Directeur $directeur) {
+        $directeur->delete();
+        return response()->noContent();
     }
 }
+

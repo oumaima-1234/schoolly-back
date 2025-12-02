@@ -8,33 +8,49 @@ use Illuminate\Http\Request;
 
 class EtudiantController extends Controller
 {
-    public function index()
-    {
+    // جلب جميع الطلاب
+    public function index() {
         return Etudiant::all();
     }
 
-    public function store(Request $request)
-    {
-        $etudiant = Etudiant::create($request->all());
-        return response()->json($etudiant, 201);
+    // إنشاء طالب جديد مع التحقق من البيانات
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'Nom' => 'required|string|max:255',
+            'Prenom' => 'required|string|max:255',
+            'Grade' => 'required|string|max:255',
+            'Class' => 'required|string|max:255',
+            'GPA' => 'required|numeric',
+            'Attendance' => 'required|integer',
+        ]);
+        
+
+        return Etudiant::create($validated);
     }
 
-    public function show($id)
-    {
-        return Etudiant::findOrFail($id);
+    // جلب طالب محدد
+    public function show(Etudiant $etudiant) {
+        return $etudiant;
     }
 
-    public function update(Request $request, $id)
-    {
-        $etudiant = Etudiant::findOrFail($id);
-        $etudiant->update($request->all());
-        return response()->json($etudiant);
+    // تحديث طالب محدد مع التحقق من البيانات
+    public function update(Request $request, Etudiant $etudiant) {
+        $validated = $request->validate([
+            'Nom' => 'required|string|max:255',
+            'Prenom' => 'required|string|max:255',
+            'Grade' => 'required|string|max:255',
+            'Class' => 'required|string|max:255',
+            'GPA' => 'required|numeric',
+            'Attendance' => 'required|integer',
+        ]);
+        
+        $etudiant->update($validated);
+        return $etudiant;
     }
 
-    public function destroy($id)
-    {
-        Etudiant::destroy($id);
-        return response()->json(null, 204);
+    // حذف طالب
+    public function destroy(Etudiant $etudiant) {
+        $etudiant->delete();
+        return response()->noContent();
     }
 }
-

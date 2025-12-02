@@ -8,32 +8,48 @@ use Illuminate\Http\Request;
 
 class ProfesseurController extends Controller
 {
-    public function index()
-    {
+    // جلب جميع الأساتذة
+    public function index() {
         return Professeur::all();
     }
 
-    public function store(Request $request)
-    {
-        $professeur = Professeur::create($request->all());
-        return response()->json($professeur, 201);
+    // إنشاء أستاذ جديد مع التحقق من البيانات
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'Name' => 'required|string|max:255',
+            'Email' => 'required|string|email|max:255|unique:professeurs',
+            'Salary' => 'required|numeric',
+            'Experience' => 'required|integer',
+            'Department' => 'required|string|max:255',
+            'Subject' => 'required|string|max:255',
+        ]);
+
+        return Professeur::create($validated);
     }
 
-    public function show($id)
-    {
-        return Professeur::findOrFail($id);
+    // جلب أستاذ محدد
+    public function show(Professeur $professeur) {
+        return $professeur;
     }
 
-    public function update(Request $request, $id)
-    {
-        $professeur = Professeur::findOrFail($id);
-        $professeur->update($request->all());
-        return response()->json($professeur);
+    // تحديث أستاذ محدد مع التحقق من البيانات
+    public function update(Request $request, Professeur $professeur) {
+        $validated = $request->validate([
+            'Name' => 'required|string|max:255',
+            'Email' => 'required|string|email|max:255|unique:professeurs,Email,' . $professeur->id,
+            'Salary' => 'required|numeric',
+            'Experience' => 'required|integer',
+            'Department' => 'required|string|max:255',
+            'Subject' => 'required|string|max:255',
+        ]);
+
+        $professeur->update($validated);
+        return $professeur;
     }
 
-    public function destroy($id)
-    {
-        Professeur::destroy($id);
-        return response()->json(null, 204);
+    // حذف أستاذ
+    public function destroy(Professeur $professeur) {
+        $professeur->delete();
+        return response()->noContent();
     }
 }
