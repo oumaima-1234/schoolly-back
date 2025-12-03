@@ -13,6 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
+        if (!Schema::hasTable('emploi_du_temps')) {
         Schema::create('emploi_du_temps', function (Blueprint $table) {
             $table->id();
             $table->string('jour');              // Lundi, Mardi...
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->string('matiere')->nullable();
             $table->timestamps();
         });
+    }
     }
 
     /**

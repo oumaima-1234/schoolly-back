@@ -18,6 +18,8 @@ class ContactController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:contacts',
+            'sujet' => 'required|string|max:255',
+            'message' => 'required|string',
         ]);
 
         return Contact::create($validated);
@@ -33,6 +35,8 @@ class ContactController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:contacts,email,' . $contact->id,
+            'sujet' => 'required|string|max:255',
+            'message' => 'required|string',
         ]);
 
         $contact->update($validated);

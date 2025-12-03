@@ -18,6 +18,7 @@ class EtudiantController extends Controller
         $validated = $request->validate([
             'Nom' => 'required|string|max:255',
             'Prenom' => 'required|string|max:255',
+            'Email' => 'required|string|email|max:255|unique:etudiants', // تمت إضافتها هنا
             'Grade' => 'required|string|max:255',
             'Class' => 'required|string|max:255',
             'GPA' => 'required|numeric',
@@ -38,6 +39,7 @@ class EtudiantController extends Controller
         $validated = $request->validate([
             'Nom' => 'required|string|max:255',
             'Prenom' => 'required|string|max:255',
+            'Email' => 'required|string|email|max:255|unique:etudiants', // تمت إضافتها هنا
             'Grade' => 'required|string|max:255',
             'Class' => 'required|string|max:255',
             'GPA' => 'required|numeric',
