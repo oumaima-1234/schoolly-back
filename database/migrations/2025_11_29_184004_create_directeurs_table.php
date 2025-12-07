@@ -17,6 +17,11 @@ return new class extends Migration
         $table->id();
         $table->string('Nom');
         $table->string('Prenom');
+        $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
+          $table->string('Telephone');
+        $table->string('Bureau');
+        $table->string('CartePro');
+
         $table->timestamps();
     });
 }

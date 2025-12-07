@@ -15,12 +15,15 @@ return new class extends Migration
 {
     Schema::create('etudiants', function (Blueprint $table) {
         $table->id();
-        $table->string('Nom');
-        $table->string('Prenom');
-        $table->string('Grade');
-        $table->string('Class');
-        $table->float('GPA');
-        $table->integer('Attendance');
+        $table->string('Nom')->default("NULL");
+        $table->string('Prenom')->default("NULL");
+        // $table->string('Grade');
+        // database/migrations/xxxx_create_users_table.php
+$table->string('role')->default('student'); // ou 'professeur' ou 'directeur'
+$table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
+        $table->string('Class')->default("NULL");
+        $table->float('GPA')->default(0);
+        $table->integer('Attendance')->default(0);
         $table->timestamps();
     });
 }

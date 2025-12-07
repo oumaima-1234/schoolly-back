@@ -19,7 +19,7 @@ class EtudiantController extends Controller
             'Nom' => 'required|string|max:255',
             'Prenom' => 'required|string|max:255',
             'Email' => 'required|string|email|max:255|unique:etudiants', // تمت إضافتها هنا
-            'Grade' => 'required|string|max:255',
+            // 'Grade' => 'required|string|max:255',
             'Class' => 'required|string|max:255',
             'GPA' => 'required|numeric',
             'Attendance' => 'required|integer',
@@ -40,7 +40,7 @@ class EtudiantController extends Controller
             'Nom' => 'required|string|max:255',
             'Prenom' => 'required|string|max:255',
             'Email' => 'required|string|email|max:255|unique:etudiants', // تمت إضافتها هنا
-            'Grade' => 'required|string|max:255',
+            // 'Grade' => 'required|string|max:255',
             'Class' => 'required|string|max:255',
             'GPA' => 'required|numeric',
             'Attendance' => 'required|integer',

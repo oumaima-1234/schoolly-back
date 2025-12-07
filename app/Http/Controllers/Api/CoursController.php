@@ -30,16 +30,21 @@ class CoursController extends Controller
     }
 
     // تحديث درس محدد مع التحقق من البيانات
-    public function update(Request $request, Cours $cours) {
-        $validated = $request->validate([
-            'Code' => 'required|string|max:255|unique:cours,Code,' . $cours->id,
-            'Nom' => 'required|string|max:255',
-            'Description' => 'nullable|string',
-        ]);
+   
+    public function update(Request $request, $id)
+{
+    $validated = $request->validate([
+        'Code' => 'required|string|max:50',
+        'Nom' => 'required|string|max:255',
+        'Description' => 'nullable|string|max:500',
+    ]);
 
-        $cours->update($validated);
-        return $cours;
-    }
+    $course = Cours::findOrFail($id);
+    $course->update($validated);
+
+    return response()->json($course);
+}
+
 
     // حذف درس
     public function destroy(Cours $cours) {

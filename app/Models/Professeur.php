@@ -11,10 +11,16 @@ class Professeur extends Model
     protected $fillable = [
         'Name',
         'Email',
+         'user_id',
         'Salary',
         'Experience',
         'Department',
         'Subject'
     ];
+
+     public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     
 }

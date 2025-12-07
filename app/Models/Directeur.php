@@ -10,7 +10,16 @@ class Directeur extends Model
     use HasFactory;
     protected $fillable = [
         'Nom',
-        'Prenom'
+        'Prenom',
+         'user_id',
+         'Telephone',
+         'Bureau',
+         'CartePro',
+         
     ];
+     public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     
 }

@@ -25,6 +25,7 @@ class ProfesseurController extends Controller
         ]);
 
         return Professeur::create($validated);
+        
     }
 
     // جلب أستاذ محدد

@@ -15,12 +15,13 @@ return new class extends Migration
 {
     Schema::create('professeurs', function (Blueprint $table) {
         $table->id();
-        $table->string('Name');
-        $table->string('Email')->unique();
-        $table->float('Salary');
-        $table->integer('Experience'); // عدّل Exprience إلى Experience لتصحيح الاسم
-        $table->string('Department');
-        $table->string('Subject');
+        $table->string('Name')->default("NULL") ;
+        $table->string('Email')->unique()->default("NULL");
+        $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
+        $table->float('Salary')->default(0);
+        $table->integer('Experience')->default(0); // عدّل Exprience إلى Experience لتصحيح الاسم
+        $table->string('Department')->default("NULL");
+        $table->string('Subject')->default("NULL");
         $table->timestamps();
     });
 }

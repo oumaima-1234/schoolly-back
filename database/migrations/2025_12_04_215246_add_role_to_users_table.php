@@ -12,18 +12,15 @@ return new class extends Migration
      * @return void
      */
     public function up()
-{
-    Schema::create('contacts', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-         $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
-        $table->string('email')->unique();
-        $table->string('sujet');
-        $table->text('message');
-        $table->timestamps();
-    });
-}
+    {
+        Schema::table('users', function (Blueprint $table) {
 
+
+        $table->string('role')->default('etudiant')->after('email');
+ 
+
+        });
+    }
 
     /**
      * Reverse the migrations.
@@ -32,6 +29,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contacts');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

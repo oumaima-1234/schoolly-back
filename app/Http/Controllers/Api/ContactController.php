@@ -4,48 +4,43 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use App\Models\Response;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    // جلب جميع جهات الاتصال
-    public function index() {
+    // Liste toutes les réclamations avec leurs réponses
+    public function index()
+    {
         return Contact::all();
     }
 
-    // إنشاء جهة اتصال جديدة مع التحقق من البيانات
-    public function store(Request $request) {
+    // Créer une réclamation
+   public function store(Request $req)
+{
+    $data = $req->validate([
+        'sujet'=>'required',
+        'message'=>'required'
+    ]);
+    $data['user_id'] = $req->user()->id;
+    $data['name'] = $req->user()->name;
+    $data['email'] = $req->user()->email;
+    $contact = Contact::create($data);
+    return response()->json($contact, 201);
+}
+
+    // Ajouter une réponse pour une réclamation
+    public function respond(Request $request, $contact_id)
+    {
+        $contact = Contact::findOrFail($contact_id);
+
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:contacts',
-            'sujet' => 'required|string|max:255',
+            'replied_by' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
 
-        return Contact::create($validated);
-    }
+        $response = $contact->responses()->create($validated);
 
-    // جلب جهة اتصال محددة
-    public function show(Contact $contact) {
-        return $contact;
-    }
-
-    // تحديث جهة اتصال محددة
-    public function update(Request $request, Contact $contact) {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:contacts,email,' . $contact->id,
-            'sujet' => 'required|string|max:255',
-            'message' => 'required|string',
-        ]);
-
-        $contact->update($validated);
-        return $contact;
-    }
-
-    // حذف جهة اتصال
-    public function destroy(Contact $contact) {
-        $contact->delete();
-        return response()->noContent();
+        return response()->json($response);
     }
 }
