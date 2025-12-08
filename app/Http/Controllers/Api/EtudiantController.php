@@ -39,7 +39,7 @@ class EtudiantController extends Controller
         $validated = $request->validate([
             'Nom' => 'required|string|max:255',
             'Prenom' => 'required|string|max:255',
-            'Email' => 'required|string|email|max:255|unique:etudiants', // تمت إضافتها هنا
+            'Email' => 'required|string|email|max:255' , // تمت إضافتها هنا
             // 'Grade' => 'required|string|max:255',
             'Class' => 'required|string|max:255',
             'GPA' => 'required|numeric',
@@ -55,4 +55,24 @@ class EtudiantController extends Controller
         $etudiant->delete();
         return response()->noContent();
     }
+
+
+
+public function getByUser($userId) {
+    $student = Etudiant::where('user_id', $userId)->first();
+    if (!$student) return response()->json(['message' => 'Étudiant non trouvé'], 404);
+    return response()->json($student);
+}
+
+public function updateByUser(Request $request, $userId) {
+    $student =  Etudiant::where('user_id', $userId)->first();
+    if (!$student) return response()->json(['message' => 'Étudiant non trouvé'], 404);
+
+    $student->update($request->only(['Nom', 'Prenom', 'Class', 'GPA', 'Attendance']));
+    return response()->json($student);
+}
+
+
+
+
 }

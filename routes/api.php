@@ -82,3 +82,26 @@ Route::middleware('auth:sanctum')->group(function () {
 //Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     //return $request->user();
 });
+
+
+use App\Http\Controllers\Api\AnnouncementController;
+
+Route::get('announcements', [AnnouncementController::class, 'index']);
+Route::post('announcements', [AnnouncementController::class, 'store']);
+Route::delete('announcements/{id}', [AnnouncementController::class, 'destroy']);
+
+
+
+
+
+// --- Étudiants ---
+Route::get('etudiants/by-user/{userId}', [EtudiantController::class, 'getByUser']);
+Route::put('etudiants/update-by-user/{userId}', [EtudiantController::class, 'updateByUser']);
+
+// --- Professeurs ---
+Route::get('professeurs/by-user/{userId}', [ProfesseurController::class, 'getByUser']);
+Route::put('professeurs/update-by-user/{userId}', [ProfesseurController::class, 'updateByUser']);
+
+// --- Directeurs ---
+Route::get('directeurs/by-user/{userId}', [DirecteurController::class, 'getByUser']);
+Route::put('directeurs/update-by-user/{userId}', [DirecteurController::class, 'updateByUser']);

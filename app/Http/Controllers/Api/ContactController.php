@@ -18,14 +18,21 @@ class ContactController extends Controller
     // Créer une réclamation
    public function store(Request $req)
 {
-    $data = $req->validate([
-        'sujet'=>'required',
-        'message'=>'required'
+
+   
+
+
+   $req->validate([
+      'name' =>'required|string|max:255' ,
+    // 'user_id' => 'required|integer|max:255'  ,
+'email' => 'required|string|max:255',
+        'sujet'=>'required|string|max:255',
+        'message'=>'required|string|max:500'
     ]);
-    $data['user_id'] = $req->user()->id;
-    $data['name'] = $req->user()->name;
-    $data['email'] = $req->user()->email;
-    $contact = Contact::create($data);
+    // $data['user_id'] = $req->user()->id;
+    // $data['name'] = $req->user()->name;
+    // $data['email'] = $req->user()->email;
+    $contact = Contact::create($req->all());
     return response()->json($contact, 201);
 }
 

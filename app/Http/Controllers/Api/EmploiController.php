@@ -35,6 +35,8 @@ class EmploiController extends Controller
         return $emploi;
     }
 
+    
+
     // PUT update emploi
     public function update(Request $request, EmploiDuTemps $emploi)
     {
